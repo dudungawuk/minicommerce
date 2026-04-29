@@ -1,5 +1,7 @@
 package com.minicommerce.auth_service.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,11 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.minicommerce.auth_service.dto.LoginRequest;
 import com.minicommerce.auth_service.dto.RegisterRequest;
-import com.minicommerce.auth_service.entity.User;
 import com.minicommerce.auth_service.service.UserService;
-
-import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -22,16 +22,18 @@ public class AuthController {
     private UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest registerRequest) {
-        try {
-            User user = userService.register(registerRequest);
-            return ResponseEntity.ok("User registered successfully");
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public ResponseEntity<String> register(@RequestBody RegisterRequest registerRequest) {
+        userService.register(registerRequest);
+        return ResponseEntity.ok("User registered successfully");
     }
 
-    @GetMapping("/hello")
+    @PostMapping("/login")
+    public ResponseEntity<Map<String, String>> login(@RequestBody LoginRequest loginRequest) {
+        String token = userService.login(loginRequest);
+        return ResponseEntity.ok(Map.of("token", token));
+    }
+
+    @GetMapping("/products")
     public String sayHello(){
         return "Hello from spring boot";
     }
