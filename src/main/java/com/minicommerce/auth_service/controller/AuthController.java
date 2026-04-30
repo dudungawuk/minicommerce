@@ -4,7 +4,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,10 +30,5 @@ public class AuthController {
     public ResponseEntity<Map<String, String>> login(@RequestBody LoginRequest loginRequest) {
         String token = userService.login(loginRequest);
         return ResponseEntity.ok(Map.of("token", token));
-    }
-
-    @GetMapping("/products")
-    public String sayHello(){
-        return "Hello from spring boot";
     }
 }
