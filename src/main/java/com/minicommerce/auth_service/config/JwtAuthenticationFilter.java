@@ -38,7 +38,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             try {
                 String username = jwtService.extractUsername(token);
-
+                
                 UsernamePasswordAuthenticationToken auth =
                         new UsernamePasswordAuthenticationToken(
                                 username,
