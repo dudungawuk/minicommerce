@@ -1,4 +1,4 @@
-package com.minicommerce.auth_service;
+package com.minicommerce.account_service;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.boot.SpringApplication;

@@ -1,4 +1,4 @@
-package com.minicommerce.auth_service.service;
+package com.minicommerce.account_service.service;
 
 import java.security.Key;
 import java.util.Date;

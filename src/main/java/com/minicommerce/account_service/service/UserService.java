@@ -1,16 +1,22 @@
-package com.minicommerce.auth_service.service;
+package com.minicommerce.account_service.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.minicommerce.auth_service.dto.LoginRequest;
-import com.minicommerce.auth_service.dto.RegisterRequest;
-import com.minicommerce.auth_service.entity.User;
-import com.minicommerce.auth_service.repository.UserRepository;
+import com.minicommerce.account_service.dto.LoginRequest;
+import com.minicommerce.account_service.dto.RegisterRequest;
+import com.minicommerce.account_service.entity.OtpRegistration;
+import com.minicommerce.account_service.entity.User;
+import com.minicommerce.account_service.repository.OtpRegistrationRepository;
+import com.minicommerce.account_service.repository.UserRepository;
+
 
 @Service
 public class UserService {
+
+    @Autowired
+    private OtpRegistrationRepository otpRegistrationRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -21,7 +27,7 @@ public class UserService {
     @Autowired
     private JwtService jwtService;
 
-    public User register(RegisterRequest registerRequest) {
+    public OtpRegistration register(RegisterRequest registerRequest) {
         if (registerRequest.getUsername() == null || registerRequest.getUsername().isBlank()) {
             throw new RuntimeException("Username is required");
         }
@@ -37,15 +43,27 @@ public class UserService {
         if (userRepository.existsByEmail(registerRequest.getEmail())) {
             throw new RuntimeException("Email already exists");
         }
+        String generateOTP = "123456";
 
-        User user = new User(
-                registerRequest.getUsername(),
-                registerRequest.getEmail(),
-                passwordEncoder.encode(registerRequest.getPassword()),
-                registerRequest.getRole()
-        );
+        OtpRegistration tempData = new OtpRegistration(
+            registerRequest.getEmail(), 
+            registerRequest.getUsername(), 
+            passwordEncoder.encode(registerRequest.getPassword()), 
+            registerRequest.getRole(), 
+            generateOTP);
 
-        return userRepository.save(user);
+        return otpRegistrationRepository.save(tempData);
+    }
+
+    public User verifyOTPAndSaveToPostgres(String email,String userInputOTP){
+        OtpRegistration tempUser = otpRegistrationRepository.findById(email)
+                .orElseThrow(() -> new RuntimeException("OTP expired or session not found"));
+        if (userInputOTP.equals(tempUser.getOtp())) {
+            User user = new User(tempUser.getUsername(), tempUser.getEmail(), passwordEncoder.encode(tempUser.getPassword()), tempUser.getRole());
+            return userRepository.save(user);
+        } else {
+            throw new RuntimeException("Invalid OTP");
+        }
     }
 
     public String login(LoginRequest loginRequest) {

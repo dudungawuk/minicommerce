@@ -1,4 +1,4 @@
-package com.minicommerce.auth_service;
+package com.minicommerce.account_service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

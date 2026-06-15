@@ -1,10 +1,12 @@
-package com.minicommerce.auth_service.repository;
+package com.minicommerce.account_service.repository;
 
-import com.minicommerce.auth_service.entity.User;
+
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+import com.minicommerce.account_service.entity.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {

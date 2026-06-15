@@ -1,4 +1,4 @@
-package com.minicommerce.auth_service.controller;
+package com.minicommerce.account_service.controller;
 
 import java.util.Map;
 
@@ -9,9 +9,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.minicommerce.auth_service.dto.LoginRequest;
-import com.minicommerce.auth_service.dto.RegisterRequest;
-import com.minicommerce.auth_service.service.UserService;
+import com.minicommerce.account_service.dto.LoginRequest;
+import com.minicommerce.account_service.dto.OTPRegisterRequest;
+import com.minicommerce.account_service.dto.RegisterRequest;
+import com.minicommerce.account_service.service.UserService;
+
+
 
 @RestController
 @RequestMapping("/api/auth")
@@ -24,6 +27,12 @@ public class AuthController {
     public ResponseEntity<String> register(@RequestBody RegisterRequest registerRequest) {
         userService.register(registerRequest);
         return ResponseEntity.ok("User registered successfully");
+    }
+
+    @PostMapping("/verifyotp")
+    public ResponseEntity<String> verifyOTP(@RequestBody OTPRegisterRequest otpRegisterRequest) {
+        userService.verifyOTPAndSaveToPostgres(otpRegisterRequest.getEmail(), otpRegisterRequest.getOtp());
+        return ResponseEntity.ok("OTP verified successfully");
     }
 
     @PostMapping("/login")

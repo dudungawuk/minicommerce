@@ -1,4 +1,4 @@
-package com.minicommerce.auth_service.config;
+package com.minicommerce.account_service.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

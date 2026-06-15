@@ -1,4 +1,4 @@
-package com.minicommerce.auth_service.config;
+package com.minicommerce.account_service.config;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -8,7 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.minicommerce.auth_service.service.JwtService;
+import com.minicommerce.account_service.service.JwtService;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

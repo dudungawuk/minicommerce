@@ -1,4 +1,4 @@
-package com.minicommerce.auth_service.dto;
+package com.minicommerce.account_service.dto;
 
 public class LoginRequest {
     private String username;
